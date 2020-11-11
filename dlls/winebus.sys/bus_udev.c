@@ -1733,18 +1733,28 @@ static void try_add_device(struct udev_device *dev,
 
     if (is_steam_controller(vid, pid) || is_in_sdl_blacklist(vid, pid))
     {
+#if 0
         /* this device is being used as a virtual Steam controller */
         TRACE("hidraw %s: ignoring device %04x/%04x with virtual Steam controller\n", debugstr_a(devnode), vid, pid);
         close(fd);
         return;
+#else
+        TRACE("hidraw %s: would ordinarily ignore Steam controller or blacklisted device %04x:%04x, but keeping it for now\n",
+              debugstr_a(devnode), vid, pid);
+#endif
     }
 
     if (is_xbox_gamepad(vid, pid))
     {
+#if 0
         /* SDL handles xbox (and steam) controllers */
         TRACE("hidraw %s: ignoring xinput device %04x/%04x\n", debugstr_a(devnode), vid, pid);
         close(fd);
         return;
+#else
+        TRACE("hidraw %s: would ordinarily ignore xbox gamepad %04x:%04x, but keeping it for now\n",
+              debugstr_a(devnode), vid, pid);
+#endif
     }
 #ifdef HAS_PROPER_INPUT_HEADER
     else
